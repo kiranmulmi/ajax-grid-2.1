@@ -22,7 +22,6 @@ This is a plugin give simple masonry gird layout
 
     <script>
         $('#blog-sample').ajaxGrid({
-            "destination": "#blog-destination",
             "limit": 6,
             "url": "repository/request_handler.php",
             "columns": [
