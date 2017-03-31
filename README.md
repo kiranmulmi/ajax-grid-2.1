@@ -10,8 +10,7 @@ This is a plugin give simple masonry gird layout
 ***Sample Html Div***
 
     <div>
-        <input type="text" onkeyup="filterPost(this)" />
-        <div id="blog-sample2">
+        <div id="blog-sample">
             <h1>{id}</h1>
             <div><h3>{phone}</h3></div>
             <div>{address}</div>
