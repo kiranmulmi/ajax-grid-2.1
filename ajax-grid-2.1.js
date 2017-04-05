@@ -24,7 +24,7 @@
             scrollLoad: false,
             rowSortable: false,
             destination: "#fds",
-            loadingClass:false,
+            loadingClass: false,
             extraFooterMsg: false
         };
 
@@ -60,13 +60,14 @@
             },
             _process: function () {
 
-                if(_settings.loadingClass) {
+                if (_settings.loadingClass) {
                     $(_settings.loadingClass).show();
                 }
 
-                if(xhr && xhr.readyState != 4 && xhr.readyState != 0){
+                if (xhr && xhr.readyState != 4 && xhr.readyState != 0) {
                     xhr.abort();
                 }
+
                 xhr = $.ajax({
                     'url': _settings.url,
                     'data': {
@@ -84,7 +85,7 @@
                         table._create();
                         pagination._init();
 
-                        if(_settings.loadingClass) {
+                        if (_settings.loadingClass) {
                             $(_settings.loadingClass).hide();
                         }
 
@@ -214,15 +215,15 @@
                     paginationNav.append('<a role="button" id="ajax-grid-next-button" class="btn btn-primary" aria-label="Next" style="margin-left: 5px;" ><span aria-hidden="true">Load More</span></a>');
                 }
 
-                if(_noOfPages > 0) {
+                if (_noOfPages > 0) {
                     _wrapper.after(paginationNav);
                 }
 
-                if(_settings.scrollLoad && _settings.loadMore) {
+                if (_settings.scrollLoad && _settings.loadMore) {
                     _wrapper.parent().find("#ajax-grid-load-more").hide();
                 }
 
-                if(_settings.extraFooterMsg) {
+                if (_settings.extraFooterMsg) {
                     footer._init();
                 }
 
@@ -342,7 +343,7 @@
                 var paginationDiv = $(".pagination");
 
                 var start = (_settings.offset + 1);
-                if(_settings.loadMore) {
+                if (_settings.loadMore) {
                     start = 1;
                 }
 
@@ -362,12 +363,37 @@
         _wrapper.parent().on('keyup', '#ajax-grid-page-no', pagination._disableGo);
         _wrapper.parent().on('click', '.ajax-grid-pagination-btn', pagination._paginationButtonsClick);
 
-        $(window).on('scroll', function() {
-            if($(window).scrollTop() >= _wrapper.offset().top + _wrapper.outerHeight() - window.innerHeight) {
-                if(_settings.loadMore && _settings.scrollLoad) {
-                    _wrapper.parent().find('#ajax-grid-next-button').trigger('click');
+        /*$(_wrapper.parent()).on('scroll', function () {
+         console.log('scroll top: '+_wrapper.parent().scrollTop());
+         console.log('inner height: '+_wrapper.parent().innerHeight());
+         console.log('scroll height: '+_wrapper.parent().scrollHeight);
+         if (_wrapper.parent().scrollTop() + _wrapper.parent().innerHeight() > _wrapper.scrollHeight - 100) {
+         // you need change value 100 according your situation
+         //$("#div").append();  // your loading more code here
+         if (_settings.loadMore && _settings.scrollLoad) {
+         _wrapper.parent().find('#ajax-grid-next-button').trigger('click');
+         }
+         }
+         });*/
+
+        var lastScrollTop = 0;
+
+        $(_wrapper.parent()).on('scroll', function() {
+
+            st = $(_wrapper.parent()).scrollTop();
+            if(st > lastScrollTop) {
+                /*console.log('_wrapper.parent().scrollTop(): ' + _wrapper.parent().scrollTop());
+                console.log('_wrapper.offset().top: ' + _wrapper.offset().top);
+                console.log('_wrapper.outerHeight(): ' + _wrapper.outerHeight());
+                console.log('_wrapper.parent().innerHeight(): ' + _wrapper.parent().innerHeight());*/
+
+                if (_wrapper.parent().scrollTop() >= _wrapper.parent().offset().top + _wrapper.outerHeight() - _wrapper.parent().innerHeight()) {
+                    if (_settings.loadMore && _settings.scrollLoad) {
+                        _wrapper.parent().find('#ajax-grid-next-button').trigger('click');
+                    }
                 }
             }
+            lastScrollTop = st;
         });
     }
 
